@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
+@theme {
+  --color-afdeef-rose: #BE185D;
+  --color-afdeef-rose-dark: #9D174D;
+  --color-afdeef-rose-light: #FDF2F8;
+  --color-afdeef-rose-border: #FBCFE8;
+
+  --color-afdeef-blue: #1D4ED8;
+  --color-afdeef-blue-dark: #1E40AF;
+  --color-afdeef-blue-light: #EFF6FF;
+
+  --color-afdeef-green: #16A34A;
+  --color-afdeef-green-dark: #15803D;
+  --color-afdeef-green-light: #F0FDF4;
+
+  --color-afdeef-orange: #EA580C;
+  --color-afdeef-orange-dark: #C2410C;
+  --color-afdeef-orange-light: #FFF7ED;
+
+  --color-afdeef-gold: #EAB308;
+  --color-afdeef-gold-light: #FEF9C3;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #FFFFFF;
+  --foreground: #1E293B;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  scroll-behavior: smooth;
 }

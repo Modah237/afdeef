@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 130" width="100%" height="100%">
+  <defs>
+    <!-- Coral / Terracotta gradient for protective hands -->
+    <linearGradient id="handsGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C2410C" />
+      <stop offset="40%" stop-color="#EA580C" />
+      <stop offset="100%" stop-color="#E11D48" />
+    </linearGradient>
+
+    <!-- Blue gradient for Father & branding -->
+    <linearGradient id="blueOfficial" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E40AF" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <!-- Emerald gradient for Child -->
+    <linearGradient id="greenChild" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15803D" />
+      <stop offset="100%" stop-color="#22C55E" />
+    </linearGradient>
+  </defs>
+
+  <!-- ==================== EMBLEM (HEART HANDS & FAMILY) ==================== -->
+  <g id="afdeef-emblem" transform="translate(15, 8)">
+    <!-- Protective cradle: Two stylized hands/arms forming an open heart shape -->
+    <!-- Left arm: smoothly curving up to form left heart curve -->
+    <path d="M 52,106 C 28,103 8,82 8,56 C 8,38 21,24 38,24 C 47,24 55,29 60,37 C 54,29 44,21 34,22 C 16,24 3,40 3,60 C 3,89 27,112 55,114 Z" 
+          fill="url(#handsGrad)" />
+
+    <!-- Right arm with open palm / protective fingers -->
+    <path d="M 58,114 C 86,112 110,89 110,60 C 110,40 97,24 79,22 C 69,21 59,29 53,37 C 58,29 66,24 75,24 C 92,24 105,38 105,56 C 105,82 85,103 61,106 Z" 
+          fill="url(#handsGrad)" />
+
+    <!-- Stylized cupped hand details at right lobe -->
+    <path d="M 85,28 C 94,36 100,48 100,60 C 100,75 88,94 70,102 C 72,99 74,95 75,90 C 88,83 95,70 95,58 C 95,46 90,36 83,30 Z" 
+          fill="#FB7185" opacity="0.85" />
+
+    <!-- Inner Family Figures -->
+    <!-- 1. Father (Left, Blue) -->
+    <g transform="translate(24, 40)">
+      <!-- Head -->
+      <circle cx="10" cy="8" r="6" fill="#1D4ED8" />
+      <!-- Body & outstretched arm to child -->
+      <path d="M 3,36 C 3,24 8,18 16,18 C 19,18 21,20 22,23 L 18,36 Z" fill="#1D4ED8" />
+      <path d="M 16,21 C 20,24 23,28 25,32" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    </g>
+
+    <!-- 2. Child (Center, Green, small) -->
+    <g transform="translate(48, 52)">
+      <!-- Head -->
+      <circle cx="8" cy="6" r="4.5" fill="#16A34A" />
+      <!-- Body -->
+      <path d="M 3,24 C 3,16 6,12 11,12 C 16,12 19,16 19,24 Z" fill="#16A34A" />
+    </g>
+
+    <!-- 3. Mother (Right, Coral / Warm Terracotta) -->
+    <g transform="translate(68, 41)">
+      <!-- Head -->
+      <circle cx="10" cy="8" r="6" fill="#E11D48" />
+      <!-- Body & embrace toward child -->
+      <path d="M 4,35 C 5,22 10,18 17,18 C 22,18 25,23 25,35 Z" fill="#E11D48" />
+      <path d="M 6,23 C 3,26 1,29 0,33" stroke="#E11D48" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    </g>
+
+    <!-- Base cradle line holding the family feet -->
+    <rect x="25" y="80" width="62" height="3" rx="1.5" fill="#1E3A8A" opacity="0.4" />
+
+    <!-- Wordmark "AFDEEF" inside the cradle below family -->
+    <text x="56" y="96" 
+          font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+          font-size="13" 
+          font-weight="900" 
+          letter-spacing="1.2" 
+          fill="#1E40AF" 
+          text-anchor="middle">
+      AFDEEF
+    </text>
+  </g>
+
+  <!-- ==================== OFFICIAL TYPOGRAPHY ==================== -->
+  <g transform="translate(142, 22)">
+    <!-- Line 1: Association des Femmes Dynamiques -->
+    <text x="0" y="24" 
+          font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+          font-size="16" 
+          font-weight="800" 
+          fill="#1E40AF" 
+          letter-spacing="-0.2">
+      Association des Femmes Dynamiques
+    </text>
+
+    <!-- Line 2: Engagées pour l'Épanouissement -->
+    <text x="0" y="46" 
+          font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+          font-size="16" 
+          font-weight="800" 
+          fill="#1E40AF" 
+          letter-spacing="-0.2">
+      Engagées pour l'Épanouissement
+    </text>
+
+    <!-- Line 3: de la Famille (AFDEEF) -->
+    <text x="0" y="68" 
+          font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+          font-size="16" 
+          font-weight="800" 
+          fill="#1D4ED8" 
+          letter-spacing="-0.2">
+      de la Famille <tspan fill="#BE185D" font-weight="900">(AFDEEF)</tspan>
+    </text>
+
+    <!-- Tricolor Baseline Divider -->
+    <g transform="translate(0, 80)">
+      <!-- Coral bar -->
+      <rect x="0" y="0" width="80" height="3" rx="1.5" fill="#E11D48" />
+      <!-- Yellow / Gold bar -->
+      <rect x="86" y="0" width="40" height="3" rx="1.5" fill="#EAB308" />
+      <!-- Green bar -->
+      <rect x="132" y="0" width="50" height="3" rx="1.5" fill="#16A34A" />
+      <!-- Blue bar -->
+      <rect x="188" y="0" width="160" height="3" rx="1.5" fill="#1D4ED8" />
+    </g>
+
+    <!-- Slogan / Sub-values -->
+    <text x="0" y="98" 
+          font-family="'Inter', system-ui, sans-serif" 
+          font-size="10" 
+          font-weight="700" 
+          letter-spacing="1" 
+          text-transform="uppercase"
+          fill="#64748B">
+      Équilibre • Épanouissement • Solidarité Familiale
+    </text>
+  </g>
+</svg>

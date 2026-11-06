@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 125" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB7185" />
+      <stop offset="50%" stop-color="#BE185D" />
+      <stop offset="100%" stop-color="#881337" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="50%" stop-color="#1D4ED8" />
+      <stop offset="100%" stop-color="#1E3A8A" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="50%" stop-color="#16A34A" />
+      <stop offset="100%" stop-color="#065F46" />
+    </linearGradient>
+    <linearGradient id="sunAura" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.25" />
+    </linearGradient>
+  </defs>
+
+  <!-- EMBLEM ICON (0 to 125) -->
+  <g transform="translate(10, 5)">
+    <!-- Sun Rayonnement -->
+    <circle cx="58" cy="56" r="38" fill="url(#sunAura)" />
+    <circle cx="58" cy="56" r="26" fill="#FEF9C3" fill-opacity="0.75" />
+
+    <!-- Open Heart Contour (Cobalt & Azure) -->
+    <path d="M 32,80 C 18,65 18,36 34,24 C 46,14 60,24 60,38 C 60,24 74,14 86,24 C 102,36 102,65 88,80 C 76,92 59,98 59,98 C 59,98 44,92 32,80 Z" 
+          fill="none" stroke="url(#blueGrad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Inner Radiant Golden Heart -->
+    <path d="M 40,70 C 30,58 30,40 42,32 C 50,26 57,32 59,40 C 61,32 68,26 76,32 C 88,40 88,58 78,70 C 68,80 59,86 59,86 C 59,86 50,80 40,70 Z" 
+          fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Protective Hands Arc (Rose Rubis on left, Gold on right) -->
+    <path d="M 22,50 C 20,70 34,92 57,96" fill="none" stroke="url(#roseGrad)" stroke-width="5.5" stroke-linecap="round" />
+    <path d="M 96,50 C 98,70 84,92 61,96" fill="none" stroke="url(#goldGrad)" stroke-width="5.5" stroke-linecap="round" />
+
+    <!-- Family Silhouette (Father, Mother, Children) -->
+    <!-- Father (Left) -->
+    <circle cx="47" cy="46" r="5.5" fill="#1E3A8A" />
+    <path d="M 41,65 C 41,56 53,56 53,65 Z" fill="#1E3A8A" />
+
+    <!-- Mother (Right) with proud posture -->
+    <circle cx="71" cy="47" r="5.5" fill="#BE185D" />
+    <path d="M 65,65 C 65,57 77,57 77,65 Z" fill="#BE185D" />
+
+    <!-- Child (Center protected in gold/orange) -->
+    <circle cx="59" cy="54" r="4" fill="#EA580C" />
+    <path d="M 54,67 C 54,62 64,62 64,67 Z" fill="#EA580C" />
+
+    <!-- Hope Leaves (Green & Gold Foliage) -->
+    <g transform="translate(86, 18) rotate(-12)">
+      <path d="M 0,25 C 10,20 20,10 22,0 C 12,5 2,15 0,25 Z" fill="url(#greenGrad)" />
+      <path d="M 4,32 C 14,30 26,22 28,12 C 18,16 6,24 4,32 Z" fill="#22C55E" />
+      <path d="M 2,40 C 12,42 24,36 30,28 C 18,30 8,36 2,40 Z" fill="url(#goldGrad)" />
+    </g>
+
+    <!-- Small Heart Accent -->
+    <path d="M 23,19 C 20,15 16,19 20,23 L 23,26 L 26,23 C 30,19 26,15 23,19 Z" fill="#BE185D" />
+  </g>
+
+  <!-- TYPOGRAPHY BRANDING (135 to 520) -->
+  <g transform="translate(138, 22)">
+    <!-- AFDEEF Acronym -->
+    <text x="0" y="38" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="40" font-weight="900" letter-spacing="-1" fill="#1D4ED8">
+      AFDEEF
+    </text>
+
+    <!-- Badge Pill Équilibre • Épanouissement -->
+    <rect x="175" y="14" width="168" height="25" rx="12.5" fill="#FDF2F8" stroke="#FBCFE8" stroke-width="1.2" />
+    <text x="259" y="30.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="10.5" font-weight="800" fill="#BE185D" text-anchor="middle">
+      Équilibre • Épanouissement
+    </text>
+
+    <!-- Subtitle lines -->
+    <text x="0" y="60" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="800" fill="#1E293B" letter-spacing="0.2">
+      Association des Femmes Dynamiques Engagées
+    </text>
+    <text x="0" y="76" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="800" fill="#BE185D" letter-spacing="0.2">
+      pour l'Épanouissement de la Famille
+    </text>
+
+    <!-- Devise -->
+    <text x="0" y="96" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11.5" font-style="italic" font-weight="700" fill="#D97706">
+      « L'union fait la force pour nos familles ♡ »
+    </text>
+  </g>
+</svg>
