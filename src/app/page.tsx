@@ -59,6 +59,98 @@ export default function HomePage() {
   // FAQ open states
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  // Baromètre Mère Debout state
+  const [barometerCurrentQ, setBarometerCurrentQ] = useState<number>(0);
+  const [barometerAnswers, setBarometerAnswers] = useState<number[]>([0, 0, 0, 0]);
+  const [isBarometerFinished, setIsBarometerFinished] = useState<boolean>(false);
+  const [dataRoomDownloaded, setDataRoomDownloaded] = useState<string | null>(null);
+
+  const barometerQuestions = [
+    {
+      id: 1,
+      title: "Lourdeur & Épuisement au Réveil",
+      question: "Le matin, ressentez-vous une lourdeur ou un épuisement physique avant même que la journée n'ait commencé ?",
+      options: [
+        { label: "Jamais, je me réveille avec enthousiasme et énergie", score: 0 },
+        { label: "Rarement, uniquement après de courtes nuits", score: 1 },
+        { label: "Souvent, j'ai l'impression que la journée sera trop lourde", score: 2 },
+        { label: "Tous les matins, je me sens vidée et submergée d'avance", score: 3 },
+      ],
+    },
+    {
+      id: 2,
+      title: "Charge Mentale & Responsabilités du Foyer",
+      question: "Avez-vous le sentiment de devoir TOUT porter seule (scolarité, repas, soins, imprévus financiers) sans relais ?",
+      options: [
+        { label: "Non, la charge est équitablement partagée dans mon foyer", score: 0 },
+        { label: "Parfois, lors des périodes d'urgence ou de rentrée scolaire", score: 1 },
+        { label: "Oui souvent, le poids complet du foyer repose sur mes seules épaules", score: 2 },
+        { label: "Totalement, si je flanche tout s'écroule et personne ne prend le relais", score: 3 },
+      ],
+    },
+    {
+      id: 3,
+      title: "Irritabilité & Culpabilité Maternelle",
+      question: "Vous arrive-t-il de perdre patience avec vos enfants ou vos proches, puis de ressentir une profonde culpabilité ?",
+      options: [
+        { label: "Presque jamais, je parviens à garder mon calme intérieur", score: 0 },
+        { label: "Occasionnellement quand la fatigue physique s'accumule", score: 1 },
+        { label: "Souvent, je m'emporte pour des détails puis je m'en veux", score: 2 },
+        { label: "Constamment, je ne me reconnais plus et je vis dans un regret permanent", score: 3 },
+      ],
+    },
+    {
+      id: 4,
+      title: "Temps pour Soi & Décompression",
+      question: "Vous accordez-vous chaque semaine au moins 30 minutes rien que pour vous sans culpabiliser ?",
+      options: [
+        { label: "Oui régulièrement, je sais m'accorder des moments de répit", score: 0 },
+        { label: "De temps en temps quand l'emploi du temps le permet", score: 1 },
+        { label: "Rarement, je fais systématiquement passer tout le monde avant moi", score: 2 },
+        { label: "Jamais, prendre du temps pour moi me donne l'impression d'abandonner mon foyer", score: 3 },
+      ],
+    },
+  ];
+
+  const barometerTotalScore = barometerAnswers.reduce((a, b) => a + b, 0);
+
+  const getBarometerDiagnosis = (score: number) => {
+    if (score <= 3) {
+      return {
+        level: "Énergie Rayonnante & Équilibrée",
+        tag: "Équilibre Préservé",
+        color: "text-emerald-800 bg-emerald-50 border-emerald-300",
+        badge: "bg-emerald-100 text-emerald-800 border-emerald-300",
+        barColor: "bg-emerald-500",
+        summary: "Bravo ! Vous parvenez à maintenir un bon équilibre de vie.",
+        advice: "Votre résilience et votre organisation protègent votre foyer. Rejoignez nos cercles de parole AFDEEF pour partager votre expérience et encourager d'autres mères de la communauté.",
+        whatsappText: `Bonjour l'équipe AFDEEF, j'ai réalisé le Baromètre Mère Debout (Score : ${score}/12 - Énergie Équilibrée). Je souhaite rejoindre vos ateliers de sororité.`,
+      };
+    }
+    if (score <= 7) {
+      return {
+        level: "Charge Mentale Modérée (Zone de Vigilance)",
+        tag: "Vigilance & Prévention",
+        color: "text-amber-900 bg-amber-50 border-amber-300",
+        badge: "bg-amber-100 text-amber-800 border-amber-300",
+        barColor: "bg-amber-500",
+        summary: "Attention : vous accumulez une fatigue silencieuse.",
+        advice: "Vous portez beaucoup sur vos épaules sans vous accorder le droit de souffler. N'attendez pas la rupture physique ou émotionnelle : venez participer à un atelier de décompression AFDEEF.",
+        whatsappText: `Bonjour l'équipe AFDEEF, j'ai réalisé le Baromètre Mère Debout (Score : ${score}/12 - Zone de Vigilance). J'aimerais participer à un atelier de décompression et échanger avec une conseillère.`,
+      };
+    }
+    return {
+      level: "Alerte Épuisement & Surcharge Maternelle",
+      tag: "Prise en Charge Urgente & Bienveillante",
+      color: "text-rose-900 bg-rose-50 border-rose-300",
+      badge: "bg-rose-100 text-rose-800 border-rose-300",
+      barColor: "bg-rose-500",
+      summary: "Vous êtes en zone d'alerte clinique de burn-out maternel.",
+      advice: "Ce n'est ni un échec personnel, ni un manque d'amour : vous avez simplement trop porté toute seule face à l'adversité. Notre cellule d'écoute confidentielle, encadrée par le Dr Alvin Dzoko et nos conseillères, vous accueille gratuitement les bras ouverts sans aucun jugement.",
+      whatsappText: `Bonjour l'équipe AFDEEF, j'ai réalisé le Baromètre Mère Debout (Score : ${score}/12 - Alerte Épuisement). J'ai besoin d'une écoute confidentielle et d'un accompagnement bienveillant.`,
+    };
+  };
+
   const presetAmountsXAF = [5000, 15000, 25000, 50000, 100000];
 
   const formatAmount = (xaf: number) => {
@@ -257,21 +349,32 @@ export default function HomePage() {
           </a>
 
           {/* Navigation standard raffinée */}
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-bold text-slate-700">
+          <nav className="hidden lg:flex items-center gap-5 text-sm font-bold text-slate-700">
             <a href="#mission" className="hover:text-[#BE185D] transition-colors">
               Nos Piliers
             </a>
-            <a href="#documentaire" className="hover:text-[#BE185D] transition-colors">
-              Documentaire & Écoute
+            <a
+              href="#barometre"
+              className="text-[#BE185D] hover:text-[#9D174D] font-black transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-50 border border-pink-200 shadow-2xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              Baromètre Mères
             </a>
             <a href="#projets" className="hover:text-[#BE185D] transition-colors">
               Projets Bailleurs
             </a>
-            <a href="#galerie" className="hover:text-[#BE185D] transition-colors">
-              Galerie Terrain
+            <a
+              href="#transparence"
+              className="text-[#1D4ED8] hover:text-[#1E40AF] font-black transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 shadow-2xs"
+            >
+              <Shield className="w-3.5 h-3.5 text-[#1D4ED8]" />
+              Data Room Bailleurs
             </a>
-            <a href="#transparence" className="hover:text-[#BE185D] transition-colors">
-              Transparence & Statuts
+            <a href="#documentaire" className="hover:text-[#BE185D] transition-colors">
+              Documentaire
+            </a>
+            <a href="#galerie" className="hover:text-[#BE185D] transition-colors">
+              Galerie
             </a>
             <a href="#faq" className="hover:text-[#BE185D] transition-colors">
               FAQ
@@ -611,6 +714,186 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 5-BIS. LE BAROMÈTRE INTERACTIF « MÈRE DEBOUT » (AUTO-ÉVALUATION BIENVEILLANTE DU BURN-OUT) */}
+      <section id="barometre" className="py-20 bg-gradient-to-b from-pink-50/80 via-white to-amber-50/40 border-y border-pink-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-pink-100 text-[#BE185D] text-xs font-black uppercase tracking-wider border border-pink-200">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              Outil d'Écoute Clinique & Sororité • 100% Confidentiel
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Baromètre « Mère Debout » : Évaluez votre niveau d'épuisement
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              En 4 questions rapides, découvrez si votre fatigue actuelle relève d'une surcharge passagère ou des signaux cliniques du burn-out maternel, et accédez à une écoute bienveillante.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border-2 border-pink-200 shadow-xl relative overflow-hidden">
+            {/* Liseré supérieur décoratif */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#BE185D] via-[#EA580C] to-[#1D4ED8]" />
+
+            {!isBarometerFinished ? (
+              <div className="space-y-8">
+                {/* Progression */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+                    <span className="text-[#BE185D] uppercase tracking-wider font-black">
+                      Question {barometerCurrentQ + 1} sur {barometerQuestions.length}
+                    </span>
+                    <span>{Math.round(((barometerCurrentQ + 1) / barometerQuestions.length) * 100)}% complété</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-[#BE185D] to-[#EA580C] transition-all duration-300 rounded-full"
+                      style={{ width: `${((barometerCurrentQ + 1) / barometerQuestions.length) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Question active */}
+                <div className="space-y-3">
+                  <div className="inline-block px-3 py-1 rounded-lg bg-pink-50 text-[#BE185D] text-xs font-black">
+                    {barometerQuestions[barometerCurrentQ].title}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
+                    {barometerQuestions[barometerCurrentQ].question}
+                  </h3>
+                </div>
+
+                {/* Options de réponse */}
+                <div className="grid grid-cols-1 gap-3 pt-2">
+                  {barometerQuestions[barometerCurrentQ].options.map((opt, idx) => {
+                    const isSelected = barometerAnswers[barometerCurrentQ] === opt.score;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          const updated = [...barometerAnswers];
+                          updated[barometerCurrentQ] = opt.score;
+                          setBarometerAnswers(updated);
+                          if (barometerCurrentQ < barometerQuestions.length - 1) {
+                            setBarometerCurrentQ(barometerCurrentQ + 1);
+                          } else {
+                            setIsBarometerFinished(true);
+                          }
+                        }}
+                        className={`text-left p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-center justify-between group cursor-pointer ${
+                          isSelected
+                            ? "bg-pink-50/80 border-[#BE185D] shadow-sm text-slate-900"
+                            : "bg-white border-slate-200 hover:border-pink-300 hover:bg-slate-50 text-slate-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 ${
+                              isSelected
+                                ? "border-[#BE185D] bg-[#BE185D] text-white"
+                                : "border-slate-300 group-hover:border-pink-400"
+                            }`}
+                          >
+                            {isSelected ? <Check className="w-3.5 h-3.5" /> : idx + 1}
+                          </div>
+                          <span className="text-sm sm:text-base font-semibold">{opt.label}</span>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#BE185D] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Navigation Précédent */}
+                {barometerCurrentQ > 0 && (
+                  <div className="pt-2 flex justify-start">
+                    <button
+                      type="button"
+                      onClick={() => setBarometerCurrentQ(barometerCurrentQ - 1)}
+                      className="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+                    >
+                      ← Revenir à la question précédente
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Résultat personnalisé */
+              <div className="space-y-8">
+                {(() => {
+                  const diag = getBarometerDiagnosis(barometerTotalScore);
+                  return (
+                    <>
+                      <div className="text-center space-y-3">
+                        <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-black border ${diag.badge}`}>
+                          {diag.tag}
+                        </span>
+                        <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
+                          Votre Bilan : <span className="text-[#BE185D]">{diag.level}</span>
+                        </h3>
+                        <p className="text-slate-600 text-sm max-w-xl mx-auto">{diag.summary}</p>
+                      </div>
+
+                      {/* Jauge d'évaluation visuelle */}
+                      <div className="max-w-md mx-auto p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                        <div className="flex justify-between text-xs font-black">
+                          <span className="text-slate-600">Score d'Épuisement Émotionnel</span>
+                          <span className="text-[#BE185D]">{barometerTotalScore} / 12</span>
+                        </div>
+                        <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden flex">
+                          <div
+                            className={`h-full ${diag.barColor} transition-all duration-500 rounded-full`}
+                            style={{ width: `${Math.max(10, (barometerTotalScore / 12) * 100)}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-[10px] text-slate-500 font-bold uppercase">
+                          <span>0 : Sereine</span>
+                          <span>6 : Vigilance</span>
+                          <span>12 : Urgence Écoute</span>
+                        </div>
+                      </div>
+
+                      {/* Carte conseil bienveillant */}
+                      <div className={`p-6 rounded-2xl border-2 ${diag.color} space-y-2`}>
+                        <h4 className="font-black text-sm uppercase tracking-wider flex items-center gap-2">
+                          <Heart className="w-4 h-4 fill-current" />
+                          Le Conseil de l'Équipe Médicale & Psychologique AFDEEF :
+                        </h4>
+                        <p className="text-sm leading-relaxed font-medium">{diag.advice}</p>
+                      </div>
+
+                      {/* Actions Immédiates */}
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-slate-100">
+                        <a
+                          href={`https://wa.me/237678046426?text=${encodeURIComponent(diag.whatsappText)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-black text-white bg-[#25D366] hover:bg-[#20BA5C] px-7 py-4 rounded-2xl shadow-lg transition-all hover:scale-102 cursor-pointer"
+                        >
+                          <Phone className="w-5 h-5 fill-white" />
+                          Contacter la Cellule d'Écoute sur WhatsApp
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setBarometerAnswers([0, 0, 0, 0]);
+                            setBarometerCurrentQ(0);
+                            setIsBarometerFinished(false);
+                          }}
+                          className="w-full sm:w-auto text-xs font-bold text-slate-600 hover:text-slate-900 px-5 py-4 rounded-2xl border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
+                        >
+                          Recommencer le questionnaire
+                        </button>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* 6. PROJETS BANQUABLES EN CO-FINANCEMENT (POUR LES BAILLEURS) */}
       <section id="projets" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -757,77 +1040,115 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Téléchargements Bailleurs & Due Diligence */}
-            <div className="lg:col-span-6 bg-white rounded-3xl p-8 border-2 border-pink-200 shadow-xl space-y-6">
-              <div>
-                <h3 className="text-xl font-black text-slate-900 mb-1">
-                  Espace Téléchargement Bailleurs & RSE
-                </h3>
-                <p className="text-xs text-slate-500 font-medium">
-                  Documents officiels certifiés conformes pour constitution de dossier de subvention.
-                </p>
+            {/* Espace Data Room Bailleurs & Due Diligence Certifiée */}
+            <div id="dataroom" className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border-2 border-blue-200 shadow-xl space-y-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-[#1D4ED8] text-xs font-black uppercase tracking-wider mb-2">
+                    <BadgeCheck className="w-4 h-4 text-[#1D4ED8]" />
+                    Data Room Officielle • Due Diligence Bailleurs
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
+                    Dossier Juridique & Conformité Institutionnelle
+                  </h3>
+                  <p className="text-xs text-slate-500 font-medium mt-1">
+                    Documents légaux certifiés conformes pour audit de subventions et mécénat RSE.
+                  </p>
+                </div>
               </div>
 
+              {/* Notification de téléchargement interactif */}
+              {dataRoomDownloaded && (
+                <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 flex items-center justify-between text-xs text-emerald-900 animate-fadeIn">
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <div>
+                      <p className="font-black">Document sélectionné : {dataRoomDownloaded}</p>
+                      <p className="text-[11px] text-emerald-700">Récépissé Préfecture Mfoundi N° 00000852 • Copie certifiée conforme</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setDataRoomDownloaded(null)}
+                    className="text-emerald-700 hover:text-emerald-950 font-bold px-2 py-1 cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-pink-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-pink-100 text-[#BE185D] flex items-center justify-center font-black text-xs">
-                      PDF
+                {[
+                  {
+                    name: "Récépissé Préfectoral N° 00000852 (Scan Authentifié)",
+                    desc: "Arrêté de Déclaration • Préfecture du Mfoundi, Yaoundé",
+                    tag: "Légal",
+                    color: "bg-pink-100 text-[#BE185D]",
+                    size: "1.4 MB",
+                  },
+                  {
+                    name: "Statuts Juridiques & Règlement Intérieur AFDEEF",
+                    desc: "Déposés conformément à la Loi N° 90/53 • Objet, gouvernance & contrôle",
+                    tag: "Statuts",
+                    color: "bg-blue-100 text-[#1D4ED8]",
+                    size: "2.8 MB",
+                  },
+                  {
+                    name: "Fiche Signalétique & Organigramme Exécutif 2026",
+                    desc: "Présidence (Mme Fokam), Conseil Médical (Dr Dzoko), Trésorerie",
+                    tag: "Gouvernance",
+                    color: "bg-purple-100 text-purple-800",
+                    size: "1.1 MB",
+                  },
+                  {
+                    name: "Dossier de Partenariat & Mécénat RSE Entreprises",
+                    desc: "Grilles de co-financement, déductibilité fiscale & SROI mesurable",
+                    tag: "RSE / Bailleurs",
+                    color: "bg-emerald-100 text-[#16A34A]",
+                    size: "3.5 MB",
+                  },
+                ].map((doc, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 bg-slate-50 hover:bg-pink-50/40 rounded-2xl border border-slate-200 hover:border-pink-300 transition-all flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className={`w-11 h-11 rounded-xl ${doc.color} flex items-center justify-center font-black text-xs shrink-0 shadow-2xs`}>
+                        PDF
+                      </div>
+                      <div className="truncate">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-bold text-slate-900 truncate">{doc.name}</p>
+                          <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600 hidden sm:inline">
+                            {doc.tag}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 font-medium truncate">{doc.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">Statuts & Règlement Intérieur AFDEEF</p>
-                      <p className="text-[11px] text-slate-500 font-medium">Document juridique certifié • Yaoundé</p>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDataRoomDownloaded(doc.name)}
+                      className="p-2.5 rounded-xl bg-white text-slate-600 hover:text-[#BE185D] hover:bg-pink-50 border border-slate-200 hover:border-pink-300 transition-all shrink-0 ml-3 shadow-2xs cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+                      title="Consulter et Télécharger"
+                    >
+                      <Download className="w-4 h-4 text-[#BE185D]" />
+                      <span className="hidden sm:inline">{doc.size}</span>
+                    </button>
                   </div>
-                  <a href="#contact" className="p-2.5 text-slate-500 hover:text-[#BE185D] transition-colors" title="Télécharger">
-                    <Download className="w-5 h-5" />
-                  </a>
-                </div>
+                ))}
+              </div>
 
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-pink-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-pink-100 text-[#BE185D] flex items-center justify-center font-black text-xs">
-                      PDF
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">Récépissé Préfectoral N° 00000852 (Scan)</p>
-                      <p className="text-[11px] text-slate-500 font-medium">Arrêté officiel de la Préfecture du Mfoundi</p>
-                    </div>
-                  </div>
-                  <a href="#contact" className="p-2.5 text-slate-500 hover:text-[#BE185D] transition-colors" title="Télécharger">
-                    <Download className="w-5 h-5" />
-                  </a>
-                </div>
-
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-pink-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-blue-100 text-[#1D4ED8] flex items-center justify-center font-black text-xs">
-                      PDF
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">Dossier de Partenariat & Mécénat RSE 2026</p>
-                      <p className="text-[11px] text-slate-500 font-medium">Grille de sponsoring, déductions & visibilité</p>
-                    </div>
-                  </div>
-                  <a href="#contact" className="p-2.5 text-slate-500 hover:text-[#1D4ED8] transition-colors" title="Télécharger">
-                    <Download className="w-5 h-5" />
-                  </a>
-                </div>
-
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-pink-300 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-emerald-100 text-[#16A34A] flex items-center justify-center font-black text-xs">
-                      PDF
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">Actes & Synthèse de la Table Ronde 2026</p>
-                      <p className="text-[11px] text-slate-500 font-medium">Livre blanc sur le burn-out familial au Cameroun</p>
-                    </div>
-                  </div>
-                  <a href="#contact" className="p-2.5 text-slate-500 hover:text-[#1D4ED8] transition-colors" title="Télécharger">
-                    <Download className="w-5 h-5" />
-                  </a>
-                </div>
+              {/* Bouton Téléchargement Pack Global */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => setDataRoomDownloaded("Pack Complet Due Diligence Bailleurs (Tous les statuts & bilans)")}
+                  className="w-full inline-flex items-center justify-center gap-2.5 font-black text-white bg-gradient-to-r from-[#1D4ED8] to-[#1E3A8A] hover:opacity-95 px-6 py-4 rounded-2xl shadow-md transition-all hover:scale-101 cursor-pointer text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  Télécharger le Pack Complet Due Diligence Bailleurs (ZIP)
+                </button>
               </div>
             </div>
 
